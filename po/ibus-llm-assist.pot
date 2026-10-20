@@ -1,0 +1,635 @@
+# Translations of ibus-llm-assist.
+# Copyright (c) 2026 Maxime Allanic
+# This file is distributed under the same license as ibus-llm-assist (MIT).
+#
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: ibus-llm-assist 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/maximeallanic/ibus-llm-assist/issues\n"
+"POT-Creation-Date: 2026-10-20 12:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: llm_assist/cli.py:23
+msgid "The \"ibus\" command is missing: install IBus first."
+msgstr ""
+
+#: llm_assist/cli.py:49
+msgid ""
+"No GNOME input sources here. Add the engine with \"ibus-setup\" (Input "
+"Method tab, \"… with suggestions\")."
+msgstr ""
+
+#: llm_assist/cli.py:56
+#, python-brace-format
+msgid "Not among your keyboard layouts: {layouts}. Yours: {yours}"
+msgstr ""
+
+#: llm_assist/cli.py:66
+msgid "not in the XKB registry"
+msgstr ""
+
+#: llm_assist/cli.py:69
+msgid "this GNOME Shell would drop the variant (see docs/patches.md)"
+msgstr ""
+
+#: llm_assist/cli.py:75
+#, python-brace-format
+msgid "Skipped {layout}: {reason}"
+msgstr ""
+
+#: llm_assist/cli.py:77
+#, python-brace-format
+msgid "Nothing to change: {layouts}"
+msgstr ""
+
+#: llm_assist/cli.py:82
+msgid ""
+"IBus did not load the engines: the input sources were left as they were. See "
+"\"ibus-llm-assist status\"."
+msgstr ""
+
+#: llm_assist/cli.py:86
+#, python-brace-format
+msgid "Suggestions are on for: {layouts}"
+msgstr ""
+
+#: llm_assist/cli.py:93
+msgid "No GNOME input sources here: remove the engine in \"ibus-setup\"."
+msgstr ""
+
+#: llm_assist/cli.py:98
+#, python-brace-format
+msgid "Input sources: {sources}"
+msgstr ""
+
+#: llm_assist/cli.py:103 verify.sh:25 verify.sh:34 verify.sh:44
+msgid "FAIL"
+msgstr ""
+
+#: llm_assist/cli.py:103
+msgid "NOTE"
+msgstr ""
+
+#: llm_assist/cli.py:103 verify.sh:30 verify.sh:42
+msgid "OK  "
+msgstr ""
+
+#: llm_assist/cli.py:112
+msgid ""
+"Suggestions and corrections from a local language model, in every "
+"application."
+msgstr ""
+
+#: llm_assist/cli.py:116
+msgid "use the engine in place of your keyboard layouts"
+msgstr ""
+
+#: llm_assist/cli.py:118
+msgid "only this layout, such as \"fr\" or \"us+intl\" (repeatable)"
+msgstr ""
+
+#: llm_assist/cli.py:119
+msgid "put your plain keyboard layouts back"
+msgstr ""
+
+#: llm_assist/cli.py:120
+msgid "check the setup"
+msgstr ""
+
+#: llm_assist/doctor.py:69
+#, python-brace-format
+msgid "IBus component installed: {path}"
+msgstr ""
+
+#: llm_assist/doctor.py:71
+#, python-brace-format
+msgid "IBus component missing: {path} (run install.sh)"
+msgstr ""
+
+#: llm_assist/doctor.py:77
+msgid "Settings schema found"
+msgstr ""
+
+#: llm_assist/doctor.py:79
+#, python-brace-format
+msgid "Settings schema {schema} not found (run install.sh)"
+msgstr ""
+
+#: llm_assist/doctor.py:84
+msgid ""
+"IBus is not running: log out and back in, or start it with \"ibus-daemon "
+"-drx\""
+msgstr ""
+
+#: llm_assist/doctor.py:89
+#, python-brace-format
+msgid "Engines known to IBus: {names}"
+msgstr ""
+
+#: llm_assist/doctor.py:91
+msgid ""
+"IBus lists none of the engines: run \"ibus write-cache\" then \"ibus "
+"restart\""
+msgstr ""
+
+#: llm_assist/doctor.py:95
+msgid ""
+"No GNOME input sources: add an engine with \"ibus-setup\" (Input Method tab)"
+msgstr ""
+
+#: llm_assist/doctor.py:99
+#, python-brace-format
+msgid "Input sources with suggestions: {layouts}"
+msgstr ""
+
+#: llm_assist/doctor.py:101
+msgid "No input source uses the engine: run \"ibus-llm-assist enable\""
+msgstr ""
+
+#: llm_assist/doctor.py:104
+#, python-brace-format
+msgid ""
+"Input sources without an engine: {layouts} (run \"ibus write-cache\" then "
+"\"ibus restart\")"
+msgstr ""
+
+#: llm_assist/doctor.py:108
+#, python-brace-format
+msgid ""
+"GNOME Shell ignores the layout variant of IBus engines, so {layouts} would "
+"type with the plain layout: see docs/patches.md, or run \"ibus-llm-assist "
+"disable\""
+msgstr ""
+
+#: llm_assist/doctor.py:114
+#, python-brace-format
+msgid ""
+"GTK_IM_MODULE={value} in the session: GTK applications bypass IBus. Remove "
+"it and log out and back in"
+msgstr ""
+
+#: llm_assist/doctor.py:121
+#, python-brace-format
+msgid "Language model server answers at {endpoint}"
+msgstr ""
+
+#: llm_assist/doctor.py:123
+#, python-brace-format
+msgid "No language model server at {endpoint}: {reason}"
+msgstr ""
+
+#: llm_assist/doctor.py:125
+#, python-brace-format
+msgid "{endpoint} is not on this machine: what you type is sent there"
+msgstr ""
+
+#: llm_assist/engine.py:24
+msgid "Corrections"
+msgstr ""
+
+#: llm_assist/engine.py:24
+msgid "Suggestions"
+msgstr ""
+
+#. TRANSLATORS: name of an input source; {layout} is the keyboard layout, such as "French (AZERTY)".
+#: llm_assist/layouts.py:152
+#, python-brace-format
+msgid "{layout}, with suggestions"
+msgstr ""
+
+#: llm_assist/layouts.py:153
+#, python-brace-format
+msgid ""
+"{layout} keyboard, with suggestions and corrections from a local language "
+"model"
+msgstr ""
+
+#: install.sh:35
+msgid "Usage: install.sh [options]"
+msgstr ""
+
+#: install.sh:37
+msgid ""
+"Installs the ibus-llm-assist engine (asks for sudo for the system files), "
+"optionally a local language model\n"
+"server in your home directory, and turns the engine on for your keyboard "
+"layouts."
+msgstr ""
+
+#: install.sh:40
+msgid "print what would be done, change nothing"
+msgstr ""
+
+#: install.sh:41
+msgid "answer yes to every question"
+msgstr ""
+
+#: install.sh:42
+msgid "do not install missing system packages"
+msgstr ""
+
+#: install.sh:43
+msgid "do not set up the local language model server"
+msgstr ""
+
+#: install.sh:44
+msgid "port of the local server (default 8033)"
+msgstr ""
+
+#: install.sh:45
+msgid "use this server instead (implies --no-server)"
+msgstr ""
+
+#: install.sh:46
+msgid "llama.cpp (default) or openai"
+msgstr ""
+
+#: install.sh:47
+msgid "model name to send to the server"
+msgstr ""
+
+#: install.sh:48
+msgid "install only; turn it on later with \"ibus-llm-assist enable\""
+msgstr ""
+
+#: install.sh:49
+msgid "where the program goes (default /usr/local)"
+msgstr ""
+
+#: install.sh:50
+msgid ""
+"stage the system files under DIR (packaging, tests); nothing else is done"
+msgstr ""
+
+#: install.sh:51
+msgid "same as ./uninstall.sh"
+msgstr ""
+
+#: install.sh:74 uninstall.sh:28 verify.sh:18
+#, sh-printf-format
+msgid "Unknown option: %s"
+msgstr ""
+
+#: install.sh:78
+msgid "--server-api is llama.cpp or openai"
+msgstr ""
+
+#: install.sh:79
+msgid "--port takes a number"
+msgstr ""
+
+#: install.sh:84
+msgid ""
+"Run the installer as yourself, not as root: it asks for sudo when it needs "
+"it."
+msgstr ""
+
+#: install.sh:86
+msgid "Python 3 is needed."
+msgstr ""
+
+#: install.sh:88
+msgid "Python 3.10 or newer is needed."
+msgstr ""
+
+#: install.sh:90
+msgid ""
+"No desktop session found: run the installer from a terminal of your desktop "
+"session."
+msgstr ""
+
+#: install.sh:93
+msgid ""
+"Only GNOME is tested. Elsewhere, add the engine yourself with \"ibus-setup\" "
+"after the install."
+msgstr ""
+
+#: install.sh:115
+msgid ""
+"Suggests the rest of your sentence (Ctrl+Tab accepts) and corrects each "
+"finished sentence, with a language model that runs on this computer."
+msgstr ""
+
+#: install.sh:116
+msgid "Dry run: nothing will be changed."
+msgstr ""
+
+#: install.sh:118
+msgid "1/5 System packages"
+msgstr ""
+
+#: install.sh:120
+msgid "Missing system packages: see above."
+msgstr ""
+
+#: install.sh:122
+#, sh-printf-format
+msgid "2/5 Engine (into %s, needs sudo)"
+msgstr ""
+
+#: install.sh:125
+#, sh-printf-format
+msgid "Staged under %s."
+msgstr ""
+
+#: install.sh:129
+msgid "3/5 Language model server"
+msgstr ""
+
+#: install.sh:131
+msgid "Skipped: the engine will use the server you configured."
+msgstr ""
+
+#: install.sh:133
+msgid ""
+"No local server set up. The engine stays silent until a server answers (docs/"
+"configuration.md)."
+msgstr ""
+
+#: install.sh:137
+msgid "4/5 Your keyboard layouts"
+msgstr ""
+
+#: install.sh:139
+msgid "Skipped: run \"ibus-llm-assist enable\" when you are ready."
+msgstr ""
+
+#: install.sh:141
+msgid "Not turned on: see the message above."
+msgstr ""
+
+#: install.sh:144
+msgid "5/5 Check"
+msgstr ""
+
+#: install.sh:146
+msgid "Dry run finished: nothing was changed."
+msgstr ""
+
+#: install.sh:150
+msgid ""
+"Done. Type in any application, pause, and press Ctrl+Tab to accept a "
+"suggestion."
+msgstr ""
+
+#: install.sh:152
+msgid ""
+"Installed, with the problems listed above. docs/troubleshooting.md explains "
+"each one."
+msgstr ""
+
+#: install.sh:154
+msgid "Settings: the keyboard menu in the top bar."
+msgstr ""
+
+#: install.sh:155
+#, sh-printf-format
+msgid "Uninstall: %s"
+msgstr ""
+
+#: uninstall.sh:25
+msgid ""
+"Usage: uninstall.sh [--dry-run] [-y] [--purge] [--keep-server] [--prefix "
+"DIR] [--destroot DIR]"
+msgstr ""
+
+#: uninstall.sh:26
+msgid ""
+"--purge also deletes the downloaded model, llama.cpp and your settings of "
+"the engine."
+msgstr ""
+
+#: uninstall.sh:32
+msgid ""
+"Run the uninstaller as yourself, not as root: it asks for sudo when it needs "
+"it."
+msgstr ""
+
+#: uninstall.sh:36
+msgid "Your keyboard layouts"
+msgstr ""
+
+#: uninstall.sh:40
+msgid "The engine is not installed: nothing to put back."
+msgstr ""
+
+#: uninstall.sh:44
+msgid "Engine (needs sudo)"
+msgstr ""
+
+#: uninstall.sh:45
+msgid "Remove the engine from the system?"
+msgstr ""
+
+#: uninstall.sh:51
+msgid "Local language model server"
+msgstr ""
+
+#: uninstall.sh:61
+msgid "ibus-llm-assist is removed."
+msgstr ""
+
+#: verify.sh:17
+msgid "Usage: verify.sh [--tests] [--prefix=DIR]"
+msgstr ""
+
+#: verify.sh:25
+#, sh-printf-format
+msgid "Not installed (no %s): run ./install.sh"
+msgstr ""
+
+#: verify.sh:30
+msgid "Installed files are as installed"
+msgstr ""
+
+#: verify.sh:34
+#, sh-printf-format
+msgid "Changed or missing: %s (run ./install.sh again)"
+msgstr ""
+
+#: verify.sh:42
+msgid "Unit tests pass"
+msgstr ""
+
+#: verify.sh:44
+msgid "Unit tests fail: python3 -m unittest discover -s tests -t ."
+msgstr ""
+
+#: lib/common.sh:58
+msgid "[Y/n]"
+msgstr ""
+
+#: lib/common.sh:58
+msgid "[y/N]"
+msgstr ""
+
+#: lib/deps.sh:75 lib/deps.sh:99
+msgid "All needed system packages are installed."
+msgstr ""
+
+#: lib/deps.sh:79
+#, sh-printf-format
+msgid ""
+"Missing on this system: %s. Install them with your package manager, then run "
+"the installer again."
+msgstr ""
+
+#: lib/deps.sh:83
+#, sh-printf-format
+msgid "Missing packages: %s"
+msgstr ""
+
+#: lib/deps.sh:84
+msgid "openSUSE package names are untested."
+msgstr ""
+
+#: lib/deps.sh:86
+msgid "Skipped (--no-deps): install them yourself."
+msgstr ""
+
+#: lib/deps.sh:89
+#, sh-printf-format
+msgid "Install them now with \"sudo %s\"?"
+msgstr ""
+
+#: lib/deps.sh:96
+#, sh-printf-format
+msgid "Still missing after the install: %s."
+msgstr ""
+
+#: lib/server.sh:36
+#, sh-printf-format
+msgid "Already downloaded: %s"
+msgstr ""
+
+#: lib/server.sh:43
+#, sh-printf-format
+msgid "Checksum mismatch for %s: delete it and run the installer again."
+msgstr ""
+
+#: lib/server.sh:50
+#, sh-printf-format
+msgid ""
+"No prebuilt llama.cpp for %s: build llama-server yourself and point the "
+"engine at it (docs/configuration.md)."
+msgstr ""
+
+#: lib/server.sh:53
+#, sh-printf-format
+msgid "llama.cpp %s already installed."
+msgstr ""
+
+#: lib/server.sh:77
+msgid "Waiting for the model to load (up to 3 minutes the first time)…"
+msgstr ""
+
+#: lib/server.sh:80
+#, sh-printf-format
+msgid "%s s…"
+msgstr ""
+
+#: lib/server.sh:90
+#, sh-printf-format
+msgid "A language model server already answers at %s: it will be used."
+msgstr ""
+
+#: lib/server.sh:94
+#, sh-printf-format
+msgid "Port %s is taken by another program. Choose another one with --port."
+msgstr ""
+
+#: lib/server.sh:97
+#, sh-printf-format
+msgid ""
+"This downloads llama.cpp %s (about 30 MB) and the Gemma 4 E2B model (%s GB) "
+"into %s, and runs them as a user service on 127.0.0.1:%s."
+msgstr ""
+
+#: lib/server.sh:99
+msgid "Set up the local language model server now?"
+msgstr ""
+
+#: lib/server.sh:100
+msgid "systemd is needed to run the server as a user service."
+msgstr ""
+
+#: lib/server.sh:101
+msgid "Without the Vulkan loader the model runs on the processor, more slowly."
+msgstr ""
+
+#: lib/server.sh:105
+msgid ""
+"No GPU usable through Vulkan: the model runs on the processor. Suggestions "
+"will be slower."
+msgstr ""
+
+#: lib/server.sh:111
+#, sh-printf-format
+msgid "Language model server ready at %s."
+msgstr ""
+
+#: lib/server.sh:113
+#, sh-printf-format
+msgid "The server did not answer in time. See: journalctl --user -u %s"
+msgstr ""
+
+#: lib/server.sh:134
+#, sh-printf-format
+msgid "The model and llama.cpp stay in %s (--purge deletes them)."
+msgstr ""
+
+#: lib/system.sh:14
+msgid "msgfmt is missing: messages stay in English."
+msgstr ""
+
+#: lib/system.sh:55
+msgid "Files that would be installed:"
+msgstr ""
+
+#: lib/system.sh:84
+#, sh-printf-format
+msgid "Not removed, outside the installed paths: %s"
+msgstr ""
+
+#: lib/system.sh:102
+msgid "No system files recorded: nothing to remove."
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:10
+msgid "Suggest the rest of the sentence after a pause"
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:14
+msgid "Correct each sentence once it is finished"
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:19
+msgid "Pause in typing, in milliseconds, before a suggestion is asked for"
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:23
+msgid "Base URL of the language model server"
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:24
+msgid ""
+"Without /v1. Anything other than a loopback address sends what you type to "
+"that machine."
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:28
+msgid ""
+"Kind of server: llama.cpp (llama-server) or any OpenAI-compatible server"
+msgstr ""
+
+#: data/io.github.maximeallanic.IBusLlmAssist.gschema.xml:32
+msgid "Model name sent to the server; empty for the server's default"
+msgstr ""

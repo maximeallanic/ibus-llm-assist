@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:   # reused by the release workflow
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests (Debian testing, GNOME 51 stack)
+    runs-on: ubuntu-latest
+    container: debian:testing
+    steps:
+      - name: Install the dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends ca-certificates git python3 python3-gi gir1.2-ibus-1.0 \
+            gir1.2-soup-3.0 libpango-1.0-0 libglib2.0-bin gettext xkb-data dconf-gsettings-backend dbus shellcheck curl
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Trust the checkout
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Unit tests, ShellCheck, file sizes, installer round trip
+        run: tests/run.sh
+
+  distros:
+    name: Installer installs its packages (${{ matrix.image }})
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { image: 'debian:testing', family: debian }
+          - { image: 'fedora:latest', family: fedora }
+          - { image: 'archlinux:latest', family: arch }
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Packages, staged install, unit tests, uninstall
+        run: tests/distro.sh ${{ matrix.family }}
+
+  ubuntu:
+    name: Unit tests (Ubuntu runner)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Install the dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-gi gir1.2-ibus-1.0 gir1.2-soup-3.0 gettext xkb-data
+      - name: Unit tests
+        run: python3 -W ignore::DeprecationWarning -m unittest discover -s tests -t . -v

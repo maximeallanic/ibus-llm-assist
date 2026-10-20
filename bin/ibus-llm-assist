@@ -1,0 +1,14 @@
+#!/usr/bin/python3 -I
+"""ibus-llm-assist: turn the engine on or off for your keyboard layouts, and check the setup."""
+import sys
+from pathlib import Path
+
+_here = Path(__file__).resolve().parent
+for _candidate in (_here.parent / 'lib' / 'ibus-llm-assist', _here.parent):
+    if (_candidate / 'llm_assist' / '__init__.py').is_file():
+        sys.path.insert(0, str(_candidate))
+        break
+
+from llm_assist.cli import main  # noqa: E402
+
+sys.exit(main())

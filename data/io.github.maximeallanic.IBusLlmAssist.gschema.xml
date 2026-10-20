@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="ibus-llm-assist">
+  <enum id="io.github.maximeallanic.IBusLlmAssist.ServerApi">
+    <value nick="llama.cpp" value="0"/>
+    <value nick="openai" value="1"/>
+  </enum>
+  <schema id="io.github.maximeallanic.IBusLlmAssist" path="/io/github/maximeallanic/IBusLlmAssist/">
+    <key name="completion-enabled" type="b">
+      <default>true</default>
+      <summary>Suggest the rest of the sentence after a pause</summary>
+    </key>
+    <key name="correction-enabled" type="b">
+      <default>true</default>
+      <summary>Correct each sentence once it is finished</summary>
+    </key>
+    <key name="pause-ms" type="i">
+      <range min="100" max="5000"/>
+      <default>400</default>
+      <summary>Pause in typing, in milliseconds, before a suggestion is asked for</summary>
+    </key>
+    <key name="endpoint" type="s">
+      <default>'http://127.0.0.1:8033'</default>
+      <summary>Base URL of the language model server</summary>
+      <description>Without /v1. Anything other than a loopback address sends what you type to that machine.</description>
+    </key>
+    <key name="server-api" enum="io.github.maximeallanic.IBusLlmAssist.ServerApi">
+      <default>'llama.cpp'</default>
+      <summary>Kind of server: llama.cpp (llama-server) or any OpenAI-compatible server</summary>
+    </key>
+    <key name="model" type="s">
+      <default>''</default>
+      <summary>Model name sent to the server; empty for the server's default</summary>
+    </key>
+  </schema>
+</schemalist>

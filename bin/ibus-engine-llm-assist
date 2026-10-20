@@ -1,0 +1,14 @@
+#!/usr/bin/python3 -I
+"""Launcher of the engine: the package sits in ../lib/ibus-llm-assist once installed, in .. in a checkout."""
+import sys
+from pathlib import Path
+
+_here = Path(__file__).resolve().parent
+for _candidate in (_here.parent / 'lib' / 'ibus-llm-assist', _here.parent):
+    if (_candidate / 'llm_assist' / '__init__.py').is_file():
+        sys.path.insert(0, str(_candidate))
+        break
+
+from llm_assist.main import main  # noqa: E402
+
+sys.exit(main())

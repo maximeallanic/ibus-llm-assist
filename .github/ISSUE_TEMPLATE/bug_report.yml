@@ -1,0 +1,48 @@
+name: Bug report
+description: Something does not install or behave as expected
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please do not paste private text you typed. Reproduce with made-up text.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `ibus-llm-assist --version` (or the commit)
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: Distribution, GNOME version, session
+      description: For example "Fedora 44, GNOME 51, Wayland"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where does it go wrong?
+      options: [install.sh, uninstall.sh, local server, suggestions, corrections, keyboard layout or dead keys, other]
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: Application, keyboard layout, language of the text, server and model
+      description: For example "Text Editor, de, German, installer's server (Gemma 4 E2B)"
+  - type: textarea
+    id: status
+    attributes:
+      label: Output of `ibus-llm-assist status`
+      render: shell
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce

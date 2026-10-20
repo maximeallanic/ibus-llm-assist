@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- IBus component of ibus-llm-assist. The engine list comes from the program itself (one engine per keyboard
+     layout of the person, see llm_assist/layouts.py); ibus-daemon builds it again when the input sources change. -->
+<component>
+  <name>io.github.maximeallanic.IBusLlmAssist</name>
+  <description>Suggestions and corrections from a local language model</description>
+  <exec>@LIBEXECDIR@/ibus-engine-llm-assist --ibus</exec>
+  <version>@VERSION@</version>
+  <author>Maxime Allanic</author>
+  <license>MIT</license>
+  <homepage>https://github.com/maximeallanic/ibus-llm-assist</homepage>
+  <textdomain>ibus-llm-assist</textdomain>
+  <observed-paths>
+    <path>~/.config/dconf/user</path>
+  </observed-paths>
+  <engines exec="@LIBEXECDIR@/ibus-engine-llm-assist --xml"/>
+</component>

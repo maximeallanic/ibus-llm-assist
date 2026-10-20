@@ -1,0 +1,27 @@
+Description: status/keyboard: Read the layout variant of IBus engines
+ InputSource._getXkbId() reads engineDesc.variant, which IBus.EngineDesc does
+ not have: its property is layout-variant (layout_variant in GJS). The check
+ is always false, so an IBus engine declaring layout "us" and variant
+ "alt-intl" got the plain "us" keymap, without its dead keys and AltGr level.
+ .
+ Read layout_variant.
+Author: Maxime Allanic
+Forwarded: no
+Last-Update: 2026-10-19
+---
+ js/ui/status/keyboard.js |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/js/ui/status/keyboard.js
++++ b/js/ui/status/keyboard.js
+@@ -68,8 +68,8 @@
+         if (!engineDesc)
+             return this.id;
+ 
+-        if (engineDesc.variant && engineDesc.variant.length > 0)
+-            return `${engineDesc.layout}+${engineDesc.variant}`;
++        if (engineDesc.layout_variant && engineDesc.layout_variant.length > 0)
++            return `${engineDesc.layout}+${engineDesc.layout_variant}`;
+         else
+             return engineDesc.layout;
+     }

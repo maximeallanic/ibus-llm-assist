@@ -1,0 +1,33 @@
+# Written by ibus-llm-assist's install.sh; removed by its uninstall.sh.
+[Unit]
+Description=Local language model for ibus-llm-assist (llama.cpp server, @MODEL_NAME@)
+Documentation=https://github.com/maximeallanic/ibus-llm-assist/blob/main/docs/configuration.md#the-local-server
+
+[Service]
+# OpenAI-compatible API on http://127.0.0.1:@PORT@, loopback only.
+# --sleep-idle-seconds unloads the model after five idle minutes; the next request loads it again.
+# --reasoning off: Gemma 4 thinks by default, which multiplies the time of each answer.
+# --cors-origins localhost --no-cors-credentials: by default llama-server answers CORS for any origin, so any web
+# page open in a browser on this machine could send it prompts and read the answers. The engine is no browser.
+ExecStart=@LLAMA_SERVER@ \
+    --model @MODEL_PATH@ \
+    --alias @MODEL_ALIAS@ \
+    --host 127.0.0.1 \
+    --port @PORT@ \
+    --gpu-layers all \
+    --ctx-size 8192 \
+    --parallel 1 \
+    --reasoning off \
+    --sleep-idle-seconds 300 \
+    --cors-origins localhost \
+    --no-cors-credentials
+# On a GPU without its own memory (integrated graphics) the weights live in RAM charged to this unit: about 5 GB
+# for Gemma 4 E2B with its 8192-token context. MemoryMax stops a larger model or context from pushing the desktop
+# into swap; the kernel then stops the server in its own unit and Restart brings it back.
+MemoryHigh=7G
+MemoryMax=8G
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
