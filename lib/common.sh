@@ -2,7 +2,7 @@
 # Shared helpers of install.sh, uninstall.sh and verify.sh: messages, translations, prompts, privileged steps,
 # distribution detection. Sourced, never run.
 
-IBLA_VERSION=0.1.0
+IBLA_VERSION=0.1.1
 IBLA_REPO=maximeallanic/ibus-llm-assist
 IBLA_SCHEMA=io.github.maximeallanic.IBusLlmAssist
 IBLA_DOMAIN=ibus-llm-assist

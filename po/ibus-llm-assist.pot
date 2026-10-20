@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ibus-llm-assist 0.1.0\n"
+"Project-Id-Version: ibus-llm-assist 0.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/maximeallanic/ibus-llm-assist/issues\n"
 "POT-Creation-Date: 2026-10-20 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"

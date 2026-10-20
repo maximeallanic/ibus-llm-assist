@@ -9,8 +9,8 @@ set -euo pipefail
 
 # Pinned release fetched by the one-line install. scripts/release.sh fills both values when a release is cut; while
 # RELEASE_SHA256 is empty, the one-line install refuses to run and points to a checkout instead.
-RELEASE_VERSION=0.1.0
-RELEASE_SHA256='86d640e2c9a0849378bfab833e5b5c0523c7cfabfcf7964f00db764daa7f5e94'
+RELEASE_VERSION=0.1.1
+RELEASE_SHA256=''
 RELEASE_URL="https://github.com/maximeallanic/ibus-llm-assist/releases/download/v${RELEASE_VERSION}/ibus-llm-assist-${RELEASE_VERSION}.tar.gz"
 
 # Runs when the script arrives through a pipe: download the pinned release over HTTPS, check its sha256 before

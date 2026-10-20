@@ -8,9 +8,9 @@ From a terminal of your GNOME session, as yourself:
 curl -fsSL https://raw.githubusercontent.com/maximeallanic/ibus-llm-assist/main/install.sh | bash
 ```
 
-`install.sh` notices it has no checkout next to it, downloads the release it pins (`v0.1.0`) over HTTPS, checks it
+`install.sh` notices it has no checkout next to it, downloads the release it pins (`v0.1.1`) over HTTPS, checks it
 against the sha256 written in `install.sh` before unpacking anything, unpacks it into
-`~/.cache/ibus-llm-assist/source-v0.1.0`, and runs the installer from there. A mismatch stops it with nothing
+`~/.cache/ibus-llm-assist/source-v0.1.1`, and runs the installer from there. A mismatch stops it with nothing
 installed; an `install.sh` that pins no release yet refuses and tells you to use a clone. Options go after `bash -s --`:
 
 ```sh
@@ -99,7 +99,7 @@ see [patches.md](patches.md).
 ## Uninstall
 
 ```sh
-./uninstall.sh            # from a clone or ~/.cache/ibus-llm-assist/source-v0.1.0
+./uninstall.sh            # from a clone or ~/.cache/ibus-llm-assist/source-v0.1.1
 curl -fsSL https://raw.githubusercontent.com/maximeallanic/ibus-llm-assist/main/install.sh | bash -s -- --uninstall
 ```
 
