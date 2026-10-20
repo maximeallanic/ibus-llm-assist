@@ -39,19 +39,58 @@ echo "== uninstall.sh --destroot"
 "$ROOT/uninstall.sh" --destroot "$WORK/a" --yes >"$WORK/u.log" 2>&1 || { cat "$WORK/u.log"; fail "uninstall"; }
 check_empty "$WORK/a"
 
-echo "== one-line bootstrap (curl | bash) from a local tarball"
+# piped PIN URL [PROTOCOLS] ARGS...: install.sh fed to bash through a pipe, as by curl | bash, with the pin and the
+# download URL replaced. PROTOCOLS widens curl's protocol list so that a local file:// stands for the GitHub release;
+# left empty, the installer keeps its own HTTPS-only list.
+piped() {
+    local pin=$1 url=$2 proto=$3
+    shift 3
+    sed -e "s|^RELEASE_SHA256=.*|RELEASE_SHA256='$pin'|" -e "s|^RELEASE_URL=.*|RELEASE_URL='$url'|" \
+        -e "s|--proto '=https'|--proto '=${proto:-https}'|" "$ROOT/install.sh" \
+        | XDG_CACHE_HOME=$WORK/cache bash -s -- "$@"
+}
+no_download_left() { ! compgen -G "$WORK/cache/ibus-llm-assist/.download.*" >/dev/null || fail "download dir left: $1"; }
+for line in "^RELEASE_SHA256=" "^RELEASE_URL=" "--proto '=https' "; do
+    grep -q -- "$line" "$ROOT/install.sh" || fail "install.sh has no '$line' for the bootstrap tests to replace"
+done
+
+echo "== piped bootstrap refuses without a pinned release"
+# The pin is emptied here, as scripts/release.sh does in the tarball: the test does not depend on whether the checkout
+# is a release commit.
+if out=$(piped '' https://example.invalid/none.tar.gz '' --destroot "$WORK/n" --yes --no-deps 2>&1); then
+    fail "bootstrap ran without a pin"
+fi
+grep -q "no release of ibus-llm-assist is pinned" <<<"$out" || fail "no clear refusal: $out"
+grep -q "git clone" <<<"$out" || fail "no clone instructions: $out"
+grep -q Downloading <<<"$out" && fail "downloaded without a pin: $out"
+[ ! -e "$WORK/cache" ] || fail "the refusal created files"
+
+echo "== piped bootstrap installs a release that matches the pin"
 mkdir -p "$WORK/src/ibus-llm-assist-test"
 (cd "$ROOT" && git ls-files -z --cached --others --exclude-standard | xargs -0 cp --parents -t "$WORK/src/ibus-llm-assist-test")
 tar -czf "$WORK/release.tar.gz" -C "$WORK/src" ibus-llm-assist-test
 sum=$(sha256sum "$WORK/release.tar.gz" | cut -d' ' -f1)
-XDG_CACHE_HOME=$WORK/cache IBUS_LLM_ASSIST_TARBALL=file://$WORK/release.tar.gz IBUS_LLM_ASSIST_SHA256=$sum \
-    bash -s -- --destroot "$WORK/b" --yes --no-deps <"$ROOT/install.sh" >"$WORK/b.log" 2>&1 \
+piped "$sum" "file://$WORK/release.tar.gz" https,file --destroot "$WORK/b" --yes --no-deps >"$WORK/b.log" 2>&1 \
     || { cat "$WORK/b.log"; fail "bootstrap"; }
 check_tree "$WORK/b"
-echo "== bootstrap refuses a tarball with the wrong checksum"
-if XDG_CACHE_HOME=$WORK/cache IBUS_LLM_ASSIST_TARBALL=file://$WORK/release.tar.gz IBUS_LLM_ASSIST_SHA256=0000 \
-    bash -s -- --destroot "$WORK/c" --yes --no-deps <"$ROOT/install.sh" >"$WORK/c.log" 2>&1; then
-    fail "a wrong checksum was accepted"
+[ -x "$WORK/cache/ibus-llm-assist/source-v$(sed -n 's/^RELEASE_VERSION=//p' "$ROOT/install.sh")/uninstall.sh" ] \
+    || fail "unpacked release not kept for uninstall.sh"
+no_download_left "after an install"
+
+echo "== piped bootstrap refuses a tampered release and cleans up"
+cp "$WORK/release.tar.gz" "$WORK/tampered.tar.gz"
+printf 'x' >>"$WORK/tampered.tar.gz"
+if piped "$sum" "file://$WORK/tampered.tar.gz" https,file --destroot "$WORK/c" --yes --no-deps >"$WORK/c.log" 2>&1; then
+    fail "a tampered release was accepted"
 fi
-[ ! -e "$WORK/c" ] || fail "something was installed despite the wrong checksum"
+grep -q "does not match the pinned sha256" "$WORK/c.log" || { cat "$WORK/c.log"; fail "no checksum refusal"; }
+[ ! -e "$WORK/c" ] || fail "something was installed from a tampered release"
+no_download_left "after a refused checksum"
+
+echo "== piped bootstrap downloads over HTTPS only"
+if piped "$sum" "file://$WORK/release.tar.gz" '' --destroot "$WORK/d" --yes --no-deps >"$WORK/d.log" 2>&1; then
+    fail "a non-HTTPS URL was downloaded"
+fi
+[ ! -e "$WORK/d" ] || fail "something was installed from a non-HTTPS URL"
+no_download_left "after a refused protocol"
 echo "installer tests: OK"

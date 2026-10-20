@@ -40,8 +40,8 @@ comme service utilisateur sans root), puis il active le moteur pour vos disposit
 résultat. Ensuite, tapez dans n'importe quel champ de texte.
 
 - Vous préférez lire avant ? `git clone https://github.com/maximeallanic/ibus-llm-assist`, puis
-  `./install.sh --dry-run`. La ligne unique peut aussi être fixée à une étiquette et un sha256
-  ([installation](docs/installation.md#one-line)).
+  `./install.sh --dry-run`. La ligne unique télécharge une version figée et vérifie son sha256
+  avant de la lancer ([installation](docs/installation.md#one-line)).
 - Vous avez déjà llama-server ? Ajoutez `-s -- --endpoint http://127.0.0.1:PORT` après `bash`.
 - Tout défaire : la même ligne avec `bash -s -- --uninstall` (`--purge` supprime aussi le modèle). Vérifier une
   installation : `ibus-llm-assist status`.

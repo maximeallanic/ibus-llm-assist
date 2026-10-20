@@ -14,7 +14,7 @@ def read(path: str) -> str:
 class VersionTest(unittest.TestCase):
     def test_versions_agree(self):
         self.assertEqual(re.search(r'^IBLA_VERSION=(\S+)$', read('lib/common.sh'), re.M).group(1), __version__)
-        self.assertEqual(re.search(r'^IBLA_RELEASE=v(\S+)$', read('install.sh'), re.M).group(1), __version__)
+        self.assertEqual(re.search(r'^RELEASE_VERSION=(\S+)$', read('install.sh'), re.M).group(1), __version__)
         self.assertIn(f'--package-version={__version__} ', read('po/update.sh'))
         self.assertIn(f'"Project-Id-Version: ibus-llm-assist {__version__}\\n"', read('po/ibus-llm-assist.pot'))
 

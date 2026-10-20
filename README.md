@@ -39,7 +39,8 @@ without root), then it turns the engine on for your keyboard layouts and checks 
 field.
 
 - Rather read it first? `git clone https://github.com/maximeallanic/ibus-llm-assist`, then `./install.sh --dry-run`.
-  The one-liner can also be pinned to a tag and a sha256 ([installation](docs/installation.md#one-line)).
+  The one-liner downloads a pinned release and checks its sha256 before running it
+  ([installation](docs/installation.md#one-line)).
 - Already running llama-server? Add `-s -- --endpoint http://127.0.0.1:PORT` after `bash`.
 - Undo it all: the same line with `bash -s -- --uninstall` (`--purge` also deletes the model). Check an install:
   `ibus-llm-assist status`.

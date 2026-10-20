@@ -21,9 +21,9 @@ First public release.
 - Suggestions and Corrections switches in the keyboard menu; GSettings schema
   `io.github.maximeallanic.IBusLlmAssist` (pause, endpoint, server kind, model); optional API key file.
 - llama.cpp native mode (default) and an experimental OpenAI-compatible mode.
-- Installer with a one-line bootstrap, package installation for Debian/Ubuntu, Fedora, Arch and openSUSE, a manifest
-  of installed files, and an optional local server: llama.cpp b11714 and Gemma 4 E2B q4_0, pinned and checked by
-  sha256, as a systemd user unit on 127.0.0.1. `uninstall.sh` and `verify.sh`.
+- Installer with a one-line bootstrap (pinned release, sha256 checked), package installation for Debian/Ubuntu,
+  Fedora, Arch and openSUSE, a manifest of installed files, and an optional local server: llama.cpp b11714 and
+  Gemma 4 E2B q4_0, pinned and checked by sha256, as a systemd user unit on 127.0.0.1. `uninstall.sh` and `verify.sh`.
 - English and French messages.
 - Optional GNOME Shell 51 and GTK 4.24 patches for layouts with a variant and translucent suggestions in GtkTextView.
 - End-to-end run in a nested GNOME Shell, model bench in four languages, CI.

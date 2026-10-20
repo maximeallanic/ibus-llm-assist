@@ -15,8 +15,8 @@ An input method sees everything you type, so these are the promises that matter:
 - **The local server is not reachable from other machines or from web pages**: it listens on 127.0.0.1 and its CORS
   answer allows only `localhost` origins, without credentials.
 - **Pinned and verified downloads.** llama.cpp and the model are fetched at fixed versions and checked against a
-  sha256 before use; a mismatch stops the install. The one-line bootstrap checks the source archive when
-  `IBUS_LLM_ASSIST_SHA256` is set.
+  sha256 before use; a mismatch stops the install. The one-line bootstrap downloads its release over HTTPS only
+  and checks it against the sha256 pinned in `install.sh` before unpacking it.
 - **Root only where needed, after asking**: the package manager and the copy of the engine's files. The engine and
   the server run as you.
 - **Removal is exact**: `uninstall.sh` removes only the files listed in the manifest, and refuses any path outside

@@ -11,8 +11,8 @@ tests/run.sh
 ```
 
 runs everything CI runs: the unit tests, ShellCheck, the 500-line limit per source file, and the installer round trip
-(`tests/installer.sh`: install into a staging root, reinstall, uninstall, then the one-line bootstrap from a local
-archive, and a refused archive with a wrong checksum). None of it needs root or touches your session.
+(`tests/installer.sh`: install into a staging root, reinstall, uninstall, then the one-line bootstrap: refused without a
+pinned release, a local archive that matches the pin, a tampered archive and a non-HTTPS URL refused). None of it needs root or touches your session.
 
 `tests/distro.sh debian|fedora|arch`, run as root in a clean container, lets the installer install its own packages,
 then runs the unit tests against them (CI runs it on `debian:testing`, `fedora:latest` and `archlinux:latest`):
@@ -57,6 +57,14 @@ po/update.sh        # regenerates po/ibus-llm-assist.pot and merges it into each
 
 `tests/test_i18n.py` fails while the template is out of date or a catalogue misses a string or a placeholder. A new
 language: `msginit -i po/ibus-llm-assist.pot -l <lang> -o po/<lang>.po`, translate, add `<lang>` to `po/LINGUAS`.
+
+## Releases
+
+1. Set the version everywhere `tests/test_version.py` checks, and give `CHANGELOG.md` its `## [X.Y.Z] - date` section.
+2. `scripts/release.sh X.Y.Z` builds the reproducible tarball, writes its sha256 into `install.sh` and commits
+   `chore(release): X.Y.Z`.
+3. Tag `vX.Y.Z` and push it. `.github/workflows/release.yml` runs the tests, rebuilds the tarball with
+   `scripts/release.sh --build-only`, fails if it does not match the pin, and publishes it with its sha256.
 
 ## Rules
 

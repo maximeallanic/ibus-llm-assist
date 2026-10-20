@@ -4,30 +4,44 @@
 #   From a checkout:  ./install.sh [options]          (./install.sh --help)
 #   In one line:      curl -fsSL https://raw.githubusercontent.com/maximeallanic/ibus-llm-assist/main/install.sh | bash
 #
-# Run without a checkout next to it, it downloads the source of the release it belongs to and runs that.
+# Run without a checkout next to it, it downloads the pinned release, checks its sha256 and runs its installer.
 set -euo pipefail
 
-IBLA_RELEASE=v0.1.0
+# Pinned release fetched by the one-line install. scripts/release.sh fills both values when a release is cut; while
+# RELEASE_SHA256 is empty, the one-line install refuses to run and points to a checkout instead.
+RELEASE_VERSION=0.1.0
+RELEASE_SHA256=''
+RELEASE_URL="https://github.com/maximeallanic/ibus-llm-assist/releases/download/v${RELEASE_VERSION}/ibus-llm-assist-${RELEASE_VERSION}.tar.gz"
 
+# Runs when the script arrives through a pipe: download the pinned release over HTTPS, check its sha256 before
+# unpacking anything, then run its installer. The unpacked release is kept: its uninstall.sh and verify.sh are there.
 bootstrap() {
-    local ref=${IBUS_LLM_ASSIST_REF:-$IBLA_RELEASE} url cache archive dir
-    url=${IBUS_LLM_ASSIST_TARBALL:-https://github.com/maximeallanic/ibus-llm-assist/archive/$ref.tar.gz}
-    cache=${XDG_CACHE_HOME:-$HOME/.cache}/ibus-llm-assist
-    archive=$cache/source-$ref.tar.gz
-    dir=$cache/source-$ref
-    command -v curl >/dev/null || { echo "curl is needed to download ibus-llm-assist." >&2; exit 1; }
-    echo "==> Downloading ibus-llm-assist $ref"
-    mkdir -p "$cache"
-    curl --fail --location --silent --show-error --output "$archive" "$url"
-    if [ -n "${IBUS_LLM_ASSIST_SHA256:-}" ]; then
-        echo "$IBUS_LLM_ASSIST_SHA256  $archive" | sha256sum --check --status \
-            || { echo "Checksum mismatch for $archive." >&2; exit 1; }
+    local tool cache dest tmp
+    if [ -z "$RELEASE_SHA256" ]; then
+        echo "error: no release of ibus-llm-assist is pinned in this installer yet." >&2
+        echo "       Use a checkout instead: git clone https://github.com/maximeallanic/ibus-llm-assist && ibus-llm-assist/install.sh" >&2
+        exit 1
     fi
-    rm -rf -- "${dir:?}"
-    mkdir -p "$dir"
-    tar -xzf "$archive" -C "$dir" --strip-components=1
-    rm -f -- "$archive"
-    exec bash "$dir/install.sh" "$@"
+    for tool in curl tar sha256sum; do
+        command -v "$tool" >/dev/null || { echo "error: $tool is needed to download ibus-llm-assist." >&2; exit 1; }
+    done
+    cache=${XDG_CACHE_HOME:-$HOME/.cache}/ibus-llm-assist
+    dest=$cache/source-v$RELEASE_VERSION
+    mkdir -p "$cache"
+    # Global, not local: the EXIT trap runs after this function has returned.
+    BOOTSTRAP_TMP=$(mktemp -d "$cache/.download.XXXXXX")
+    trap 'rm -rf -- "$BOOTSTRAP_TMP"' EXIT
+    tmp=$BOOTSTRAP_TMP
+    echo "==> Downloading ibus-llm-assist $RELEASE_VERSION"
+    curl --fail --location --silent --show-error --proto '=https' --proto-redir '=https' --tlsv1.2 \
+        --output "$tmp/release.tar.gz" "$RELEASE_URL"
+    echo "$RELEASE_SHA256  $tmp/release.tar.gz" | sha256sum --check --status \
+        || { echo "error: the download does not match the pinned sha256; nothing was installed." >&2; exit 1; }
+    mkdir "$tmp/src"
+    tar -xzf "$tmp/release.tar.gz" -C "$tmp/src" --strip-components=1 --no-same-owner
+    rm -rf -- "${dest:?}"
+    mv "$tmp/src" "$dest"
+    bash "$dest/install.sh" "$@"
 }
 
 usage() {

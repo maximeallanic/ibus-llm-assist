@@ -19,8 +19,8 @@ Drafts for the first public announcement. Nothing has been posted. Every claim b
 
 ## Before posting
 
-1. The repository is public, the `v0.1.0` tag and release exist (the one-line installer downloads that release), CI
-   is green.
+1. The repository is public, `scripts/release.sh 0.1.0` has pinned the release, the `v0.1.0` tag and release exist
+   (the one-line installer downloads that release and refuses while none is pinned), CI is green.
 2. The social preview is uploaded (`docs/marketing/github-metadata.md`).
 3. Run the one-liner once on a clean user account or VM, so that the first reports are not about the install.
 4. Post one venue at a time, when you can answer for the next two or three hours. Never ask anyone to upvote.

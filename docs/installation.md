@@ -8,15 +8,16 @@ From a terminal of your GNOME session, as yourself:
 curl -fsSL https://raw.githubusercontent.com/maximeallanic/ibus-llm-assist/main/install.sh | bash
 ```
 
-`install.sh` notices it has no checkout next to it, downloads the source of the release it belongs to (`v0.1.0`) into
-`~/.cache/ibus-llm-assist/source-v0.1.0`, and runs the installer from there. Options go after `bash -s --`:
+`install.sh` notices it has no checkout next to it, downloads the release it pins (`v0.1.0`) over HTTPS, checks it
+against the sha256 written in `install.sh` before unpacking anything, unpacks it into
+`~/.cache/ibus-llm-assist/source-v0.1.0`, and runs the installer from there. A mismatch stops it with nothing
+installed; an `install.sh` that pins no release yet refuses and tells you to use a clone. Options go after `bash -s --`:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/maximeallanic/ibus-llm-assist/main/install.sh | bash -s -- --no-server
 ```
 
-To pin what you download, set `IBUS_LLM_ASSIST_REF` (a tag or a commit) and, to check it,
-`IBUS_LLM_ASSIST_SHA256` (sha256 of the archive): the bootstrap stops on a mismatch before running anything.
+The tarball and its sha256 are also on the release page; `scripts/release.sh` writes that sha256 into `install.sh`.
 
 ## From a clone
 
