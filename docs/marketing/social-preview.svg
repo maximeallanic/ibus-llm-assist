@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GitHub social preview, 1280x640. The three text strips are crops of the real captures in screenshots/,
+     unretouched. Render: see docs/marketing/github-metadata.md. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101b27"/>
+      <stop offset="1" stop-color="#1b3a57"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-30%" width="110%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="640" fill="url(#bg)"/>
+
+  <text x="72" y="84" font-family="Adwaita Mono" font-size="28" fill="#99c1f1">ibus-llm-assist</text>
+  <text x="72" y="152" font-family="Adwaita Sans" font-weight="800" font-size="62" fill="#ffffff">Local AI autocomplete</text>
+  <text x="72" y="220" font-family="Adwaita Sans" font-weight="800" font-size="62" fill="#ffffff">for your Linux desktop</text>
+
+  <!-- English: suggestion shown in grey -->
+  <g filter="url(#shadow)">
+    <rect x="72" y="270" width="1136" height="84" rx="14" fill="#ffffff"/>
+  </g>
+  <svg x="92" y="282" width="728" height="60" viewBox="40 80 560 46">
+    <image href="../../screenshots/en-suggestion.png" width="1008" height="348"/>
+  </svg>
+  <rect x="1136" y="296" width="52" height="32" rx="16" fill="#1c71d8"/>
+  <text x="1162" y="319" text-anchor="middle" font-family="Adwaita Sans" font-weight="700" font-size="18" fill="#fff">EN</text>
+
+  <!-- French -->
+  <g filter="url(#shadow)">
+    <rect x="72" y="372" width="1136" height="84" rx="14" fill="#ffffff"/>
+  </g>
+  <svg x="92" y="384" width="1017" height="60" viewBox="40 80 782 46">
+    <image href="../../screenshots/fr-suggestion.png" width="1008" height="348"/>
+  </svg>
+  <rect x="1136" y="398" width="52" height="32" rx="16" fill="#1c71d8"/>
+  <text x="1162" y="421" text-anchor="middle" font-family="Adwaita Sans" font-weight="700" font-size="18" fill="#fff">FR</text>
+
+  <!-- Arabic, right to left -->
+  <g filter="url(#shadow)">
+    <rect x="72" y="474" width="1136" height="84" rx="14" fill="#ffffff"/>
+  </g>
+  <svg x="876" y="486" width="312" height="60" viewBox="725 80 240 46">
+    <image href="../../screenshots/ar-suggestion.png" width="1008" height="348"/>
+  </svg>
+  <rect x="92" y="500" width="52" height="32" rx="16" fill="#1c71d8"/>
+  <text x="118" y="523" text-anchor="middle" font-family="Adwaita Sans" font-weight="700" font-size="18" fill="#fff">AR</text>
+
+  <text x="72" y="604" font-family="Adwaita Sans" font-size="25" fill="#c0d3e6">IBus input method  ·  <tspan font-weight="700" fill="#ffffff">Ctrl+Tab</tspan> accepts  ·  finished sentences corrected  ·  runs on 127.0.0.1</text>
+</svg>
