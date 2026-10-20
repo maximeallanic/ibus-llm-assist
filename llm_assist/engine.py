@@ -13,8 +13,15 @@ from .controller import Controller  # noqa: E402
 from .i18n import _  # noqa: E402
 from .llm import LlmClient  # noqa: E402
 
-# IBus.AttrPreedit.PREDICTION. PyGObject declares the enum as flags and hides the non-power-of-two members.
+# IBus.AttrType.HINT (IBUS_ATTR_TYPE_HINT), added in IBus 1.5.33: the engine names the role of a pre-edit segment and
+# the client picks the style. IBus.AttrPreedit.PREDICTION is its value for a suggestion (PyGObject declares that enum
+# as flags and hides the non-power-of-two members, hence the number).
+_ATTR_TYPE_HINT = 4
 _PREDICTION = 3
+# Before 1.5.33 a prediction is the grey foreground of ibus-typing-booster: the colour IBus 1.5.33 itself converts
+# PREDICTION to for clients that read colours, and back to PREDICTION for clients that read hints.
+_LEGACY_PREDICTION_RGB = 0x7F7F7F
+HAS_PREDICTION_HINT = hasattr(IBus.AttrType, 'HINT')
 _OTHER_MODIFIERS = (IBus.ModifierType.SHIFT_MASK | IBus.ModifierType.MOD1_MASK | IBus.ModifierType.MOD4_MASK
                     | IBus.ModifierType.SUPER_MASK)
 # Modifiers that turn a key into a shortcut: with one held, the key types nothing (AltGr is MOD5 and still types).
@@ -24,11 +31,21 @@ _COMMAND_MODIFIERS = (IBus.ModifierType.CONTROL_MASK | IBus.ModifierType.MOD1_MA
 _TOGGLES = (('completion-enabled', _('Suggestions')), ('correction-enabled', _('Corrections')))
 
 
+def prediction_attribute(hint: bool = HAS_PREDICTION_HINT) -> tuple[int, int]:
+    """(type, value) of the IBus attribute that marks a suggestion.
+
+    hint: whether this IBus has IBus.AttrType.HINT (1.5.33 and later); without it the text gets the grey colour that
+    stands for a prediction in older IBus, whose IBus.Attribute refuses any other type.
+    """
+    return (_ATTR_TYPE_HINT, _PREDICTION) if hint else (int(IBus.AttrType.FOREGROUND), _LEGACY_PREDICTION_RGB)
+
+
 def prediction_text(text: str) -> IBus.Text:
     """text marked as predicted, so that the application styles it as a suggestion."""
     ibus_text = IBus.Text.new_from_string(text)
     attrs = IBus.AttrList()
-    attrs.append(IBus.Attribute.new(IBus.AttrType.HINT, _PREDICTION, 0, len(text)))
+    # IBus counts attribute indices in characters, as Python does.
+    attrs.append(IBus.Attribute.new(*prediction_attribute(), 0, len(text)))
     ibus_text.set_attributes(attrs)
     return ibus_text
 
@@ -42,7 +59,9 @@ class LlmAssistEngine(IBus.EngineSimple):
         self._controller = Controller(self, llm, lambda ms, fn: GLib.timeout_add(ms, fn), GLib.source_remove)
         self._props = IBus.PropList()
         for key, label in _TOGGLES:
-            self._props.append(IBus.Property(key=key, prop_type=IBus.PropType.TOGGLE,
+            # icon is set although unused: IBus does not apply its "" default at construction, and with the GLib
+            # and PyGObject of Ubuntu 24.04 it stays NULL, which serializes to an invalid D-Bus message.
+            self._props.append(IBus.Property(key=key, prop_type=IBus.PropType.TOGGLE, icon='',
                                              label=IBus.Text.new_from_string(label), visible=True))
         self._settings_handler = settings.connect('changed', lambda *_: self._sync_settings())
         self._sync_settings()

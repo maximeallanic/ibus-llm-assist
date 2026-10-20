@@ -42,14 +42,16 @@ jobs:
       - name: Packages, staged install, unit tests, uninstall
         run: tests/distro.sh ${{ matrix.family }}
 
+  # Pinned: Ubuntu 24.04 has IBus 1.5.29, older than IBus.AttrType.HINT (1.5.33), so this job runs the fallback path.
   ubuntu:
-    name: Unit tests (Ubuntu runner)
-    runs-on: ubuntu-latest
+    name: Unit tests (Ubuntu 24.04, IBus 1.5.29)
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install the dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends python3-gi gir1.2-ibus-1.0 gir1.2-soup-3.0 gettext xkb-data
+          sudo apt-get install -y --no-install-recommends python3-gi gir1.2-ibus-1.0 gir1.2-soup-3.0 libpango-1.0-0 \
+            libglib2.0-bin gettext xkb-data dbus
       - name: Unit tests
         run: python3 -W ignore::DeprecationWarning -m unittest discover -s tests -t . -v

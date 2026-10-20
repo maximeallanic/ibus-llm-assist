@@ -12,21 +12,32 @@ from gi.repository import Gio, GLib, IBus  # noqa: E402
 
 from tests import _path  # noqa: F401,E402
 from llm_assist.config import SCHEMA  # noqa: E402
-from llm_assist.engine import LlmAssistEngine, prediction_text  # noqa: E402
+from llm_assist.engine import HAS_PREDICTION_HINT, LlmAssistEngine, prediction_attribute, prediction_text  # noqa: E402
 from llm_assist.layouts import Layout, engines_xml  # noqa: E402
 
 DATA = Path(__file__).resolve().parents[1] / 'data'
 
 
 class ContractTest(unittest.TestCase):
-    def test_prediction_attribute_is_hint_3(self):
+    def test_prediction_is_the_prediction_hint_when_ibus_has_hints(self):
+        # IBUS_ATTR_TYPE_HINT (4) with IBUS_ATTR_PREEDIT_PREDICTION (3), IBus 1.5.33 and later.
+        self.assertEqual(prediction_attribute(hint=True), (4, 3))
+
+    def test_prediction_is_the_legacy_grey_without_hints(self):
+        # Before IBus 1.5.33: the foreground colour IBus maps to and from IBUS_ATTR_PREEDIT_PREDICTION.
+        self.assertEqual(prediction_attribute(hint=False), (2, 0x7F7F7F))  # IBUS_ATTR_TYPE_FOREGROUND
+
+    def test_this_ibus_gets_the_form_it_supports(self):
+        # Built with the IBus the tests run on, which refuses an attribute type it does not know (before 1.5.33,
+        # IBus.Attribute.new returns NULL for the hint).
+        has_hint = hasattr(IBus.AttrType, 'HINT')
+        self.assertEqual(HAS_PREDICTION_HINT, has_hint)
         text = prediction_text('été là')
         self.assertEqual(text.get_text(), 'été là')
         attr = text.get_attributes().get(0)
-        self.assertEqual(attr.get_attr_type(), IBus.AttrType.HINT)
-        self.assertEqual(attr.get_value(), 3)
-        self.assertEqual((attr.get_start_index(), attr.get_end_index()), (0, 6))
         self.assertIsNone(text.get_attributes().get(1))
+        self.assertEqual((attr.get_attr_type(), attr.get_value()), prediction_attribute(has_hint))
+        self.assertEqual((attr.get_start_index(), attr.get_end_index()), (0, 6))
 
     def test_component_lists_the_engines_its_program_prints(self):
         # ibus-daemon runs the <engines exec> command: here a stand-in printing what --xml prints for one layout.
@@ -180,6 +191,13 @@ class KeyEventTest(unittest.TestCase):
 
     def test_plain_letter_goes_back_to_the_application(self):
         self.assertFalse(self.press(ord('e')))
+
+    def test_menu_properties_serialize(self):
+        # Every string field must be set: a NULL one (the icon, on Ubuntu 24.04) makes an invalid D-Bus message.
+        for i in range(2):
+            prop = self.engine._props.get(i)
+            self.assertEqual(prop.get_icon(), '')
+            self.assertIsNotNone(IBus.Serializable.serialize_object(prop))
 
     def test_destroy_releases_controller_and_settings(self):
         # ibus-daemon recreates engines on a source switch: a dropped one must keep no timer, request nor handler.

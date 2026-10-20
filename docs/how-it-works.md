@@ -33,7 +33,8 @@ Ctrl+Z only right after a correction.
    model *answer* the text ("Thank you so much for" → "You're welcome"); sending the raw text alone makes it change
    language on short beginnings. Both were measured and dropped.
 4. The answer is at most 16 tokens, cut at the end of the sentence and, when the token limit cut it, back to the last
-   word end. It shows as pre-edit text with the "prediction" hint after the cursor.
+   word end. It shows as pre-edit text with the "prediction" hint after the cursor (with IBus older than 1.5.33, the
+   grey colour that stood for it; [compatibility](compatibility.md#look-of-the-suggestion-by-version)).
 5. Typing the same characters shortens it; anything else, a click or a move dismisses it; Ctrl+Tab commits it.
 
 A new key cancels a request still in flight: a local server serves one request at a time, so stale requests would

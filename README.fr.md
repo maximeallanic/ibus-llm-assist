@@ -115,9 +115,12 @@ langue.
 
 Petits échantillons, une seule machine : c'est un ordre de grandeur, et `dev/bench/run.py` le mesure chez vous.
 
-- **Bureau** : GNOME sous Wayland, testé avec GNOME 51 (Debian testing). IBus 1.5, Python 3.10+, PyGObject,
-  libsoup 3. L'installateur gère apt, dnf et pacman (vérifiés dans des conteneurs en CI ; testé sur un vrai bureau
-  sous Debian seulement).
+- **Bureau** : GNOME sous Wayland, testé avec GNOME 51 (Debian testing). IBus 1.5.26 ou plus récent, Python 3.10+,
+  PyGObject, libsoup 3. Le texte fantôme demande IBus 1.5.33 et GNOME 51 : avec des versions plus anciennes
+  (Ubuntu 24.04, Debian 13, Fedora 44…), la suggestion s'affiche comme un texte en cours de saisie ordinaire,
+  souligné, et marche de la même façon ([compatibilité](docs/compatibility.md#look-of-the-suggestion-by-version)).
+  L'installateur gère apt, dnf et pacman (vérifiés dans des conteneurs en CI ; testé sur un vrai bureau sous Debian
+  seulement).
 - **Serveur local** : environ 5 Go de mémoire tant que le modèle est chargé. Il se décharge après cinq minutes
   d'inactivité, donc la première suggestion après une pause prend quelques secondes. Un GPU utilisable par Vulkan
   (Intel, AMD, NVIDIA) donne des suggestions rapides ; le processeur suffit, plus lentement.

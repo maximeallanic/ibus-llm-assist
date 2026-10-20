@@ -56,8 +56,11 @@ server and points the engine at yours.
 | openSUSE | `zypper` | names unverified; the installer says so |
 | Others | none | the installer lists what is missing and stops |
 
-The engine needs IBus 1.5 with GObject introspection, which every one of them ships. The
-[patches](patches.md) are separate and optional.
+The engine needs IBus 1.5.26 or later with GObject introspection, and Python 3.10 or later. Its unit tests run on
+IBus 1.5.26 (Ubuntu 22.04), 1.5.29 (Ubuntu 24.04) and 1.5.35 (Debian testing). The suggestion looks like ghost text
+only with IBus 1.5.33 and GNOME 51 or later; before that it is ordinary underlined pre-edit text
+([compatibility](compatibility.md#look-of-the-suggestion-by-version)). The [patches](patches.md) are separate and
+optional.
 
 ### Options
 

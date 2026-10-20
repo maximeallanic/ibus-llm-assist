@@ -70,6 +70,12 @@ out and back in. On GNOME Wayland, GTK needs no `GTK_IM_MODULE` at all.
 You added `textview > preedit.prediction` to `gtk.css` without the [GTK patch](patches.md): keep only
 `text > preedit.prediction` ([configuration](configuration.md#look-of-the-suggestion)).
 
+## The suggestion is underlined instead of ghost text
+
+Ghost text needs IBus 1.5.33 and GNOME Shell 51 or later (`ibus version`, `gnome-shell --version`). Older versions
+show the suggestion as ordinary pre-edit text; it works the same
+([compatibility](compatibility.md#look-of-the-suggestion-by-version)).
+
 ## Dead keys or Compose stopped working
 
 The engine composes them like IBus's xkb engines. If an accent comes out as two characters, the layout of the engine

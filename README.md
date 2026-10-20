@@ -109,8 +109,11 @@ per language.
 
 Small samples on one machine: read them as an order of magnitude, and run `dev/bench/run.py` on yours.
 
-- **Desktop**: GNOME on Wayland, tested on GNOME 51 (Debian testing). IBus 1.5, Python 3.10+, PyGObject, libsoup 3.
-  The installer handles apt, dnf and pacman (checked in CI containers; desktop-tested on Debian only).
+- **Desktop**: GNOME on Wayland, tested on GNOME 51 (Debian testing). IBus 1.5.26 or later, Python 3.10+, PyGObject,
+  libsoup 3. Ghost text needs IBus 1.5.33 and GNOME 51: with older versions (Ubuntu 24.04, Debian 13, Fedora 44…)
+  the suggestion shows as ordinary underlined pre-edit text, and works the same
+  ([compatibility](docs/compatibility.md#look-of-the-suggestion-by-version)). The installer handles apt, dnf and
+  pacman (checked in CI containers; desktop-tested on Debian only).
 - **Local server**: about 5 GB of memory while the model is loaded. It unloads after five idle minutes, so the first
   suggestion after a break takes a few seconds. A GPU usable through Vulkan (Intel, AMD, NVIDIA) gives fast
   suggestions; the processor works, slower.

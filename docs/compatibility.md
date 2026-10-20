@@ -9,13 +9,49 @@
 | GNOME on X11 | untested |
 | KDE Plasma, other desktops with IBus | add the engine with `ibus-setup`; `ibus-llm-assist enable` only edits GNOME input sources; untested |
 
+## Look of the suggestion by version
+
+The engine marks the suggestion as a *prediction*, and the desktop decides how it looks. Two versions decide it:
+
+- **IBus 1.5.33** added the "hint" attribute (`IBUS_ATTR_TYPE_HINT`) that names the role of pre-edit text. The engine
+  sends the prediction hint when the installed IBus has it. With an older IBus it sends the form a prediction had
+  before: the grey foreground colour `#7F7F7F` of ibus-typing-booster, which IBus 1.5.33 itself converts to and from
+  the prediction hint.
+- **GNOME Shell 51** is the first to pass pre-edit hints on to applications. GNOME Shell 50 and earlier drop every
+  pre-edit style, so applications draw the suggestion as plain pre-edit text: GTK 4 underlines it.
+
+| IBus | GNOME Shell | The suggestion in GTK 4 |
+|---|---|---|
+| 1.5.33 or later | 51 or later | ghost text: the `preedit.prediction` CSS node, italic by default, translucent with the [CSS rule](configuration.md#look-of-the-suggestion) |
+| 1.5.33 or later | 50 or earlier | underlined, at full opacity |
+| 1.5.26 to 1.5.32 | 50 or earlier | underlined, at full opacity |
+
+Applications that draw IBus colours themselves (the IBus input modules of GTK 3 and Qt, IBus's own Wayland client
+on other desktops) show the older form in grey; untested. Accepting, dismissing and correcting work the same in
+every row.
+
+What the distributions ship (2026-10-20):
+
+| Distribution | IBus | GNOME Shell | Suggestion |
+|---|---|---|---|
+| Debian testing (forky) | 1.5.35~rc1 | 51.0 | ghost text (tested) |
+| Arch | 1.5.34 | 51.1 | ghost text |
+| Fedora 44 | 1.5.34~rc1 | 50.6 | underlined |
+| Fedora 43 | 1.5.33 | 49.10 | underlined |
+| Debian 13 (trixie) | 1.5.32 | 48.7 | underlined |
+| Ubuntu 24.04 | 1.5.29 | 46.0 | underlined |
+| Debian 12 (bookworm) | 1.5.27 | 43.9 | underlined |
+| Ubuntu 22.04 | 1.5.26 | 42.9 | underlined |
+
+The unit tests run on IBus 1.5.26, 1.5.29 and 1.5.35; the desktop is tested on Debian testing only.
+
 ## Applications
 
 The engine works in applications that talk to IBus and report the text around the cursor ("surrounding text").
 
 | Application | Suggestion | Correction |
 |---|---|---|
-| GTK 4 (Files, Text Editor, Settings…) | ghost text; translucent with the [CSS rule](configuration.md#look-of-the-suggestion), in multi-line fields only with the [GTK patch](patches.md) | yes |
+| GTK 4 (Files, Text Editor, Settings…) | ghost text; translucent with the [CSS rule](configuration.md#look-of-the-suggestion), in multi-line fields only with the [GTK patch](patches.md). Underlined before IBus 1.5.33 and GNOME 51 ([above](#look-of-the-suggestion-by-version)) | yes |
 | Chrome 155 (Wayland) | underlined, at full opacity: Chromium ignores the "prediction" hint | yes |
 | GTK 3, Qt, Electron, Firefox | depends on their IBus or text-input-v3 support; untested | untested |
 | Terminals | off on purpose | off |

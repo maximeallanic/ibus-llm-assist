@@ -87,7 +87,9 @@ A server that is not on this machine receives everything you type in the fields 
 ## Look of the suggestion
 
 The suggestion is pre-edit text with the "prediction" hint. GTK 4 styles it through the CSS node
-`preedit.prediction`, in italic by default. For grey ghost text, add to `~/.config/gtk-4.0/gtk.css`:
+`preedit.prediction`, in italic by default. This needs IBus 1.5.33 and GNOME Shell 51 or later: with older versions
+GTK 4 receives no hint and underlines the suggestion, and the rules below change nothing
+([compatibility](compatibility.md#look-of-the-suggestion-by-version)). For grey ghost text, add to `~/.config/gtk-4.0/gtk.css`:
 
 ```css
 /* ibus-llm-assist: suggestions as translucent ghost text */
